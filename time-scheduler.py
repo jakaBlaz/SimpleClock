@@ -1,8 +1,9 @@
-from datetime import datetime as time
+from datetime import datetime as datum
+
 import csv
 
 aktivnost = {
-    "zaccas" : time.now(),
+    "zaccas" : datum.now(),
     "delo" : None,
     "csv" : [],
     "pavza-sum" : [0],
@@ -14,13 +15,13 @@ aktivnost = {
 def pavza():
     global aktivnost
 
-    aktivnost["pavza-start"].append(time.now())
-
-    while input("Ali je konec pavze?") == "Ne" or "ne":
-        continue
-    aktivnost["pavza-stop"].append(time.now())
-    print(aktivnost["pavza-stop"][-1])
+    aktivnost["pavza-start"].append(datum.now())
+    temp = True
+    while temp:
+        temp = int(input("Želiš nadaljevati s pavzo? 1 ali 0"))
+    aktivnost["pavza-stop"].append(datum.now())
     summa = aktivnost["pavza-stop"][-1] - aktivnost["pavza-start"][-1]
+    print(summa)
     aktivnost["pavza-sum"].append(summa)
     
 
@@ -39,4 +40,11 @@ with open('casi.csv','r', newline='') as csvfile:
 
 premor = True
 while premor:
-    pavza()
+    premor = bool(int(input("ali še delaš? 1 za ja in 0 za ne")))
+    if premor:
+        brekfast = bool(int(input("Odmor? 1 za ja in 0 za ne")))
+        if brekfast:
+            pavza()
+
+print("Die Ende")
+print(aktivnost)
